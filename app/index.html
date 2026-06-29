@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>思维导图项目任务</title>
+  <title>Mindo</title>
+  <link rel="icon" href="../assets/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../assets/icon-256.png">
   <style>
     :root {
       --purple: #6258f6;
@@ -5956,12 +5958,287 @@
       cursor: grabbing !important;
       user-select: none !important;
     }
+
+    /* Settings, draggable title bar, and persistent sidebar toggle polish. */
+    .top-strip {
+      height: 30px !important;
+      -webkit-app-region: drag;
+    }
+
+    .app {
+      height: calc(100vh - 30px) !important;
+    }
+
+    .topbar {
+      -webkit-app-region: drag;
+      justify-content: flex-start !important;
+      gap: 22px !important;
+      min-height: 54px !important;
+      padding: 0 24px !important;
+    }
+
+    .topbar button,
+    .topbar nav,
+    .topbar select {
+      -webkit-app-region: no-drag;
+    }
+
+    .topbar-sidebar-toggle {
+      position: static !important;
+      flex: 0 0 auto;
+      width: 24px !important;
+      height: 24px !important;
+      margin: 0 !important;
+      transform: none !important;
+      color: rgba(60,60,67,.58);
+    }
+
+    .app.sidebar-collapsed .topbar-sidebar-toggle {
+      left: auto !important;
+      top: auto !important;
+      transform: none !important;
+    }
+
+    .topbar .view-tabs {
+      gap: 24px !important;
+      padding-left: 0 !important;
+    }
+
+    .sidebar {
+      padding-top: 10px !important;
+    }
+
+    .account {
+      display: grid !important;
+      grid-template-columns: auto minmax(0, 1fr) auto !important;
+      align-items: center !important;
+      gap: 12px !important;
+      margin-bottom: 14px !important;
+    }
+
+    .account .avatar,
+    .account .global-search {
+      justify-self: start;
+    }
+
+    .account .global-search {
+      justify-self: end;
+    }
+
+    .settings-editor {
+      width: min(1180px, calc(100vw - 56px)) !important;
+      max-width: none !important;
+      height: min(760px, calc(100vh - 56px));
+      padding: 0 !important;
+      overflow: hidden;
+      border-radius: 18px !important;
+      background: rgba(252,252,253,.86) !important;
+    }
+
+    .settings-editor {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+    }
+
+    .settings-nav {
+      padding: 22px 16px;
+      border-right: 1px solid rgba(60,60,67,.12);
+      background: rgba(247,248,251,.72);
+    }
+
+    .settings-nav h2 {
+      margin: 0 0 22px;
+      font-size: 22px;
+      font-weight: 850;
+    }
+
+    .settings-nav button {
+      width: 100%;
+      height: 42px;
+      margin-bottom: 8px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 8px;
+      background: transparent;
+      color: rgba(60,60,67,.64);
+      text-align: left;
+      font-size: 14px;
+      font-weight: 760;
+    }
+
+    .settings-nav button.active {
+      background: rgba(60,60,67,.10);
+      color: #202124;
+    }
+
+    .settings-content {
+      position: relative;
+      overflow: auto;
+      padding: 28px 34px 34px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .settings-close {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+    }
+
+    .settings-hero,
+    .settings-card {
+      border: 1px solid rgba(60,60,67,.12);
+      border-radius: 14px;
+      background: rgba(255,255,255,.66);
+      box-shadow: inset 0 1px rgba(255,255,255,.56);
+    }
+
+    .settings-hero {
+      padding: 24px 28px;
+    }
+
+    .settings-hero span,
+    .settings-stat span,
+    .settings-card p {
+      color: rgba(60,60,67,.58);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .settings-hero h2,
+    .settings-card h3 {
+      margin: 4px 0 6px;
+      font-size: 24px;
+      font-weight: 880;
+    }
+
+    .settings-card {
+      padding: 22px 28px;
+    }
+
+    .settings-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    .settings-stat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .settings-stat,
+    .permission-row {
+      border: 1px solid rgba(60,60,67,.12);
+      border-radius: 10px;
+      background: rgba(255,255,255,.54);
+    }
+
+    .settings-stat {
+      padding: 14px 16px;
+    }
+
+    .settings-stat strong {
+      display: block;
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 850;
+    }
+
+    .permission-row {
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 14px;
+      margin-top: 10px;
+      color: rgba(60,60,67,.68);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .permission-row strong {
+      color: rgba(32,33,36,.82);
+      font-size: 13px;
+    }
+
+    .settings-calendar-list {
+      margin-top: 10px;
+    }
+
+    body.dark-mode .settings-editor {
+      background: rgba(20,20,22,.92) !important;
+    }
+
+    body.dark-mode .settings-nav,
+    body.dark-mode .settings-hero,
+    body.dark-mode .settings-card,
+    body.dark-mode .settings-stat,
+    body.dark-mode .permission-row {
+      background: rgba(255,255,255,.06);
+      border-color: rgba(255,255,255,.10);
+    }
+
+    body.dark-mode .settings-nav button.active {
+      background: rgba(255,255,255,.12);
+      color: rgba(255,255,255,.92);
+    }
+
+    /* Calendar week/day view: keep column dates visible and aligned above the grid. */
+    .time-title {
+      display: grid !important;
+      height: 42px !important;
+      min-height: 42px !important;
+      overflow: visible !important;
+      border-bottom: 0 !important;
+      background: transparent !important;
+      position: sticky !important;
+      top: 0 !important;
+      z-index: 4 !important;
+    }
+
+    .time-title-cell {
+      display: grid !important;
+      place-items: center !important;
+      gap: 1px !important;
+      padding: 4px 8px 6px !important;
+      border-left: 0 !important;
+      color: rgba(60,60,67,.58) !important;
+      font-size: 12px !important;
+      line-height: 1.1 !important;
+      text-align: center;
+    }
+
+    .time-title-cell span,
+    .time-title-cell strong {
+      display: block;
+      line-height: 1.1;
+    }
+
+    .time-title-cell strong {
+      font-size: 15px;
+      font-weight: 780;
+    }
+
+    .time-title-cell.today strong {
+      min-width: 0 !important;
+      height: auto !important;
+      padding: 0 !important;
+      border-radius: 0 !important;
+      background: transparent !important;
+      color: #1d1d1f !important;
+      box-shadow: inset 0 -2px rgba(29,29,31,.72);
+    }
   </style>
 </head>
 <body>
   <div class="top-strip"></div>
   <div class="app">
-    <button class="sidebar-toggle" id="sidebarToggle" title="收起/拉出左侧模块">‹</button>
     <aside class="sidebar">
       <div class="account">
         <button class="avatar" id="accountButton" title="账号设置">ZA</button>
@@ -6017,6 +6294,7 @@
 
     <main class="main">
       <header class="topbar">
+        <button class="sidebar-toggle topbar-sidebar-toggle" id="sidebarToggle" title="收起/拉出左侧模块" aria-label="收起或拉出左侧模块"></button>
         <nav class="view-tabs" aria-label="视图切换">
           <button class="tab" data-view="daily" data-scope="daily">☀ Daily</button>
           <button class="tab" data-view="list" data-scope="both">☷ List</button>
@@ -6331,26 +6609,68 @@
   </div>
 
   <div class="todo-modal" id="calendarAuthModal" aria-hidden="true">
-    <section class="todo-editor" role="dialog" aria-modal="true" aria-label="日历授权">
-      <div class="editor-head">
-        <div>
-          <h2>授权日历访问</h2>
-          <p>同步苹果系统日历与 Todo 时间</p>
-        </div>
-        <button class="close" id="closeCalendarAuth">×</button>
-      </div>
-      <div class="editor-body">
-        <div class="scene-preview">
-          <div class="scene-preview-icon">▣</div>
-          <div>
-            <strong>允许读取 Apple Calendar？</strong>
-            <span>授权后可读取系统日历分类，并把 Todo、Check-in 和 Timer 时间同步到日历。</span>
+    <section class="todo-editor settings-editor" role="dialog" aria-modal="true" aria-label="设置">
+      <aside class="settings-nav" aria-label="设置分类">
+        <h2>设置</h2>
+        <button type="button">账户资料</button>
+        <button type="button">账户设置</button>
+        <button class="active" type="button">订阅权益</button>
+        <button type="button">主题外观</button>
+        <button type="button">语言切换</button>
+        <button type="button">同步策略</button>
+        <button type="button">权限设置</button>
+        <button type="button">桌面小组件</button>
+      </aside>
+      <div class="settings-content">
+        <button class="close settings-close" id="closeCalendarAuth">×</button>
+        <section class="settings-hero">
+          <span>当前选项卡</span>
+          <h2>订阅与权益</h2>
+          <p>查看版本、同步状态、权限和系统能力，后续可在这里继续扩展会员与资源用量。</p>
+        </section>
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div>
+              <h3>订阅与权益</h3>
+              <p>当前版本与资源使用情况。</p>
+            </div>
+            <button class="secondary" type="button">刷新</button>
           </div>
-        </div>
-        <div class="editor-actions">
-          <button class="secondary" id="denyCalendarAuth" type="button">暂不授权</button>
-          <button class="primary" id="allowCalendarAuth" type="button">允许读取</button>
-        </div>
+          <div class="settings-stat-grid">
+            <div class="settings-stat"><span>当前版本</span><strong>全功能体验</strong></div>
+            <div class="settings-stat"><span>项目数量</span><strong>∞</strong></div>
+            <div class="settings-stat"><span>节点上限</span><strong>∞</strong></div>
+          </div>
+        </section>
+        <section class="settings-card">
+          <div class="settings-card-head">
+            <div>
+              <h3 id="calendarAuthStatusTitle">连接 Apple Calendar</h3>
+              <p id="calendarAuthStatusText">授权后可读取系统日历分类，并把 Todo、Check-in 和 Timer 时间同步到指定日历。</p>
+            </div>
+            <button class="primary" id="allowCalendarAuth" type="button">连接</button>
+          </div>
+          <div class="permission-row">
+            <span>授权状态</span>
+            <strong id="calendarAuthState">状态：未授权</strong>
+          </div>
+          <div class="mini-list settings-calendar-list" id="calendarListPreview"></div>
+          <div class="editor-actions">
+            <button class="secondary" id="denyCalendarAuth" type="button">稍后</button>
+            <button class="secondary" id="refreshCalendars" type="button">刷新日历</button>
+          </div>
+        </section>
+        <section class="settings-card">
+          <h3>权限设置</h3>
+          <div class="permission-row"><span>日历读取与写入</span><strong>用于同步 Check-in / Timer 时间块</strong></div>
+          <div class="permission-row"><span>通知提醒</span><strong>用于截止时间与重复任务提醒</strong></div>
+          <div class="permission-row"><span>本地文件</span><strong>用于导入图片、贴纸和导出备份</strong></div>
+          <div class="permission-row"><span>桌面小组件</span><strong>通过 mindo:// 深链接启动场景或自由计时</strong></div>
+        </section>
+        <section class="settings-card">
+          <h3>桌面小组件</h3>
+          <p>已预留 macOS WidgetKit 小组件入口：场景小组件可直接启动场景，计时小组件可打开自由计时，并回写到 Mindo 与 Apple Calendar。</p>
+        </section>
       </div>
     </section>
   </div>
@@ -6532,6 +6852,9 @@
             </select>
           </label>
         </div>
+        <label>链接日历
+          <select id="nodeCalendarInput"></select>
+        </label>
 
         <div class="section-title">关系</div>
         <div class="field-grid">
@@ -6767,6 +7090,7 @@
         plan: "Pro",
         calendarSync: "未授权"
       },
+      appleCalendars: ["Work", "Daily", "Learning", "Personal"],
       folders: [
         {
           id: "folder-personal",
@@ -6820,6 +7144,7 @@
       status: $("statusInput"),
       repeat: $("repeatInput"),
       sceneId: $("nodeSceneInput"),
+      calendar: $("nodeCalendarInput"),
       completedAt: $("completedInput")
     };
 
@@ -6902,6 +7227,10 @@
       normalized.calendarMode = ["day", "week", "month", "year"].includes(normalized.calendarMode) ? normalized.calendarMode : "month";
       normalized.theme = normalized.theme === "dark" ? "dark" : "light";
       normalized.appleCalendarAuthorized = Boolean(normalized.appleCalendarAuthorized);
+      normalized.appleCalendars = Array.isArray(normalized.appleCalendars) && normalized.appleCalendars.length
+        ? normalized.appleCalendars
+        : ["Work", "Daily", "Learning", "Personal"];
+      const sceneCalendarById = (sceneId, fallback) => normalized.scenes.find((scene) => scene.id === sceneId)?.calendar || fallback;
       normalized.account = {
         name: normalized.account?.name || "Zakiyah",
         phone: normalized.account?.phone || "",
@@ -6930,6 +7259,7 @@
               color: node.color || colors[index % colors.length],
               marker: node.marker || "none",
               sceneId: node.sceneId || "",
+              calendar: node.calendar || sceneCalendarById(node.sceneId || "", "Apple Calendar / Mind Map"),
               manualPosition: Boolean(node.manualPosition),
               logs: node.logs || [],
               dailyTasks: (node.dailyTasks || []).map((task, taskIndex) => ({
@@ -6944,6 +7274,7 @@
                 priority: task.priority || "medium",
                 nodeId: task.nodeId || node.id,
                 sceneId: task.sceneId || "",
+                calendar: task.calendar || sceneCalendarById(task.sceneId || "", "Apple Calendar / Daily"),
                 type: task.type || "checkin",
                 repeat: task.repeat || "none",
                 repeatTime: task.repeatTime || "",
@@ -6998,6 +7329,7 @@
         priority: task.priority || "medium",
         nodeId: task.nodeId || "",
         sceneId: task.sceneId || "",
+        calendar: task.calendar || sceneCalendarById(task.sceneId || "", "Apple Calendar / Daily"),
         type: task.type || "checkin",
         repeat: task.repeat || "none",
         repeatTime: task.repeatTime || "",
@@ -7449,6 +7781,41 @@
       return String(value || "Apple Calendar / Daily").replace(/^Apple Calendar\s*\/\s*/i, "") || "Daily";
     }
 
+    function calendarOptionValue(name) {
+      return `Apple Calendar / ${eventCalendarName(name)}`;
+    }
+
+    function availableCalendarNames() {
+      const names = Array.isArray(state.appleCalendars) && state.appleCalendars.length
+        ? state.appleCalendars
+        : ["Work", "Daily", "Learning", "Personal"];
+      return [...new Set(names.map(eventCalendarName).filter(Boolean))];
+    }
+
+    function calendarOptionsHtml(selected = "Apple Calendar / Daily") {
+      const current = eventCalendarName(selected);
+      const names = availableCalendarNames();
+      if (current && !names.includes(current)) names.unshift(current);
+      return names.map((name) => {
+        const value = calendarOptionValue(name);
+        return `<option value="${escapeHtml(value)}" ${eventCalendarName(value) === current ? "selected" : ""}>${escapeHtml(name)}</option>`;
+      }).join("");
+    }
+
+    function renderCalendarAuthState() {
+      const title = $("calendarAuthStatusTitle");
+      const text = $("calendarAuthStatusText");
+      const stateBox = $("calendarAuthState");
+      const list = $("calendarListPreview");
+      if (!title || !text || !stateBox || !list) return;
+      title.textContent = state.appleCalendarAuthorized ? "Apple Calendar 已连接" : "连接 Apple Calendar";
+      text.textContent = state.appleCalendarAuthorized
+        ? "已读取系统日历。Todo、场景和节点可选择写入哪个 Apple Calendar。"
+        : "点击连接后，macOS 会弹出系统权限。允许后 Mindo 会读取你的日历分类。";
+      stateBox.textContent = `状态：${state.appleCalendarAuthorized ? "已授权" : "未授权"}`;
+      list.innerHTML = availableCalendarNames().map((name) => `<div class="mini-log"><span>▣ ${escapeHtml(name)}</span><strong>${state.appleCalendarAuthorized ? "可同步" : "待授权"}</strong></div>`).join("");
+    }
+
     function calendarPayloadFromRecord(source, record, fallback = {}) {
       const start = new Date(record?.start || record?.time || fallback.start || new Date());
       const end = new Date(record?.end || start.getTime() + (record?.duration || 15 * 60 * 1000));
@@ -7498,6 +7865,26 @@
         await bridge.deleteEvent(record.appleCalendarEventId);
       } catch (error) {
         record.syncError = error.message;
+      }
+    }
+
+    function handleDeepLink(url) {
+      try {
+        const parsed = new URL(url);
+        if (parsed.protocol !== "mindo:") return;
+        const action = parsed.hostname;
+        const id = parsed.pathname.split("/").filter(Boolean)[0];
+        if (action === "scene" && id) {
+          runScene(id);
+          notify("已从小组件启动场景");
+        } else if (action === "timer") {
+          toggleFreeTimer();
+          notify("已从小组件切换自由计时");
+        } else if (action === "calendar") {
+          openCalendarAuth();
+        }
+      } catch (error) {
+        console.warn("Invalid deep link", url, error);
       }
     }
 
@@ -7737,7 +8124,8 @@
       $("sceneIconColorInput").value = scene.iconColor || "#eaf2ff";
       $("sceneThemeColorInput").value = scene.themeColor || "#0a84ff";
       $("sceneDefaultOwnerInput").value = scene.defaultOwner || "";
-      $("sceneCalendarInput").value = scene.calendar || "Apple Calendar / Work";
+      $("sceneCalendarInput").innerHTML = calendarOptionsHtml(scene.calendar || "Apple Calendar / Work");
+      $("sceneCalendarInput").value = scene.calendar || calendarOptionValue(availableCalendarNames()[0] || "Work");
       $("sceneCalendarSyncLabel").textContent = state.appleCalendarAuthorized ? "已同步 Apple Calendar" : "待授权 Apple Calendar";
       $("sceneNoteInput").value = scene.note || "";
       $("sceneTypeCards").querySelectorAll("[data-scene-type]").forEach((button) => {
@@ -8743,6 +9131,7 @@
     function openCalendarAuth() {
       $("calendarAuthModal").classList.add("open");
       $("calendarAuthModal").setAttribute("aria-hidden", "false");
+      renderCalendarAuthState();
     }
 
     function closeCalendarAuth() {
@@ -8750,11 +9139,53 @@
       $("calendarAuthModal").setAttribute("aria-hidden", "true");
     }
 
-    function allowCalendarAuth() {
-      state.appleCalendarAuthorized = true;
-      state.account.calendarSync = "已授权";
-      closeCalendarAuth();
-      renderAll();
+    async function refreshAppleCalendars(showToast = true) {
+      const bridge = nativeCalendar();
+      if (!bridge?.listCalendars) {
+        state.appleCalendarAuthorized = false;
+        state.account.calendarSync = "桌面版可用";
+        renderCalendarAuthState();
+        if (showToast) notify("请在 macOS 桌面版中连接 Apple Calendar");
+        return false;
+      }
+      const result = await bridge.listCalendars();
+      if (result?.ok) {
+        state.appleCalendarAuthorized = true;
+        state.account.calendarSync = "已授权";
+        state.appleCalendars = (result.calendars || []).map(eventCalendarName).filter(Boolean);
+        if (!state.appleCalendars.length) state.appleCalendars = ["Daily"];
+        saveState();
+        renderCalendarAuthState();
+        renderAll();
+        if (showToast) notify("Apple Calendar 已连接");
+        return true;
+      }
+      state.appleCalendarAuthorized = false;
+      state.account.calendarSync = "未授权";
+      saveState();
+      renderCalendarAuthState();
+      if (showToast) notify("Apple Calendar 授权失败，请检查系统设置");
+      return false;
+    }
+
+    async function allowCalendarAuth() {
+      const bridge = nativeCalendar();
+      if (!bridge?.requestAccess) {
+        state.appleCalendarAuthorized = false;
+        renderCalendarAuthState();
+        return appAlert("浏览器版不能访问 Apple Calendar。请下载并打开 macOS 桌面版 Mindo。", "Apple Calendar");
+      }
+      const access = await bridge.requestAccess();
+      if (!access?.ok) {
+        state.appleCalendarAuthorized = false;
+        state.account.calendarSync = "未授权";
+        saveState();
+        renderCalendarAuthState();
+        return appAlert(access?.error || "macOS 未允许 Mindo 访问 Calendar，请到系统设置里允许。", "Apple Calendar");
+      }
+      await refreshAppleCalendars(false);
+      renderCalendarAuthState();
+      notify("Apple Calendar 已连接");
     }
 
     function openTodoEditor(id) {
@@ -8797,6 +9228,7 @@
       }
       const macroOptions = `<option value="" ${!task.nodeId ? "selected" : ""}>不链接节点</option>${nodes().map((node) => `<option value="${node.id}" ${task.nodeId === node.id ? "selected" : ""}>${escapeHtml(node.title)}</option>`).join("")}`;
       const sceneOptions = `<option value="">无场景</option>${state.scenes.map((scene) => `<option value="${scene.id}" ${task.sceneId === scene.id ? "selected" : ""}>${escapeHtml(scene.emoji)} ${escapeHtml(scene.name)}</option>`).join("")}`;
+      const taskCalendar = task.calendar || sceneForTask(task)?.calendar || "Apple Calendar / Daily";
       $("todoEditorTitle").textContent = task.title || "Todo";
       panel.innerHTML = `
         <div class="daily-editor-form">
@@ -8852,6 +9284,9 @@
             <label>所属场景
               <select id="dailySceneInput">${sceneOptions}</select>
             </label>
+            <label>链接日历
+              <select id="dailyCalendarInput">${calendarOptionsHtml(taskCalendar)}</select>
+            </label>
           </div>
           <div class="field-grid">
             <label>是否重复
@@ -8884,6 +9319,7 @@
       bind("dailyStatusInput", "status", true);
       bind("dailyTypeInput", "type", true);
       bind("dailySceneInput", "sceneId", true);
+      bind("dailyCalendarInput", "calendar");
       bind("dailyRepeatInput", "repeat", true);
       bind("dailyRepeatTimeInput", "repeatTime");
       $("dailyNodeInput")?.addEventListener("input", (event) => moveDailyTaskToNode(task.id, event.target.value));
@@ -8902,6 +9338,10 @@
       if (key === "status") {
         task.done = value === "done";
         if (value === "done" && !task.completedAt) task.completedAt = new Date().toISOString().slice(0, 16);
+      }
+      if (key === "sceneId") {
+        const scene = sceneById(value);
+        if (scene?.calendar) task.calendar = scene.calendar;
       }
       saveState();
       if (key === "title" && $("todoEditorTitle")) $("todoEditorTitle").textContent = value || "Todo";
@@ -10581,6 +11021,8 @@
       fields.repeat.value = node.repeat || "none";
       fields.sceneId.innerHTML = `<option value="">无场景</option>${state.scenes.map((scene) => `<option value="${scene.id}">${escapeHtml(scene.emoji)} ${escapeHtml(scene.name)}</option>`).join("")}`;
       fields.sceneId.value = node.sceneId || "";
+      fields.calendar.innerHTML = calendarOptionsHtml(node.calendar || sceneById(node.sceneId)?.calendar || "Apple Calendar / Mind Map");
+      fields.calendar.value = node.calendar || sceneById(node.sceneId)?.calendar || calendarOptionValue(availableCalendarNames()[0] || "Daily");
       fields.completedAt.value = node.completedAt || "";
       $("parentLabel").textContent = parent?.title || "无";
       $("childCountLabel").textContent = childCount;
@@ -10599,6 +11041,10 @@
       const node = selectedNode();
       if (!node) return;
       Object.assign(node, patch);
+      if (patch.sceneId && !patch.calendar) {
+        const scene = sceneById(patch.sceneId);
+        if (scene?.calendar) node.calendar = scene.calendar;
+      }
       if (patch.status === "done" && !node.completedAt) node.completedAt = new Date().toISOString().slice(0, 16);
       if (patch.status && patch.status !== "done") node.completedAt = "";
       if (patch.completedAt) node.status = "done";
@@ -11031,7 +11477,7 @@
       if (!task) return;
       if (task.type === "checkin") {
         task.checkins = task.checkins || [];
-        const record = { time: new Date().toISOString(), sceneId: task.sceneId || "", calendar: sceneForTask(task)?.calendar || "Apple Calendar / Daily" };
+        const record = { time: new Date().toISOString(), sceneId: task.sceneId || "", calendar: task.calendar || sceneForTask(task)?.calendar || "Apple Calendar / Daily" };
         task.checkins.push(record);
         syncCalendarRecord(task, record, { type: "checkin", scene: sceneForTask(task), title: task.title });
         task.done = true;
@@ -11055,7 +11501,7 @@
       const start = new Date(task.timerRunningSince);
       const end = new Date();
       task.logs = task.logs || [];
-      const log = { start: start.toISOString(), end: end.toISOString(), duration: end.getTime() - start.getTime(), sceneId: task.sceneId || "", calendar: sceneForTask(task)?.calendar || "Apple Calendar / Daily" };
+      const log = { start: start.toISOString(), end: end.toISOString(), duration: end.getTime() - start.getTime(), sceneId: task.sceneId || "", calendar: task.calendar || sceneForTask(task)?.calendar || "Apple Calendar / Daily" };
       task.logs.push(log);
       syncCalendarRecord(task, log, { type: "timer", scene: sceneForTask(task), title: task.title });
       task.timerRunningSince = null;
@@ -11112,7 +11558,7 @@
       const start = new Date(node.timerRunningSince);
       const end = new Date();
       const scene = sceneById(node.sceneId);
-      const log = { start: start.toISOString(), end: end.toISOString(), duration: end.getTime() - start.getTime(), sceneId: node.sceneId || "", calendar: scene?.calendar || "Apple Calendar / Mind Map" };
+      const log = { start: start.toISOString(), end: end.toISOString(), duration: end.getTime() - start.getTime(), sceneId: node.sceneId || "", calendar: node.calendar || scene?.calendar || "Apple Calendar / Mind Map" };
       node.logs.push(log);
       syncCalendarRecord(node, log, { type: "timer", scene, title: node.title });
       node.timerRunningSince = null;
@@ -11194,7 +11640,7 @@
       renderSidebar();
       saveState();
     });
-    $("settingsButton")?.addEventListener("click", () => appAlert("基础设置入口已预留，后续可以细化账号、日历、通知、同步和显示偏好。", "Settings"));
+    $("settingsButton")?.addEventListener("click", openCalendarAuth);
     $("notificationsButton")?.addEventListener("click", () => notify("Notifications：暂无新通知"));
     $("accountButton").addEventListener("click", openAccountEditor);
     $("dailyTodayButton").addEventListener("click", () => switchView("daily", "daily"));
@@ -11292,6 +11738,7 @@
     $("closeCalendarAuth").addEventListener("click", closeCalendarAuth);
     $("denyCalendarAuth").addEventListener("click", closeCalendarAuth);
     $("allowCalendarAuth").addEventListener("click", allowCalendarAuth);
+    $("refreshCalendars").addEventListener("click", () => refreshAppleCalendars(true));
     $("calendarAuthModal").addEventListener("click", (event) => {
       if (event.target.id === "calendarAuthModal") closeCalendarAuth();
     });
@@ -11344,6 +11791,7 @@
       target.dispatchEvent(new Event("input", { bubbles: true }));
       target.dispatchEvent(new Event("change", { bubbles: true }));
     });
+    window.NativeBridge?.onDeepLink?.(handleDeepLink);
     $("typeCheckin").addEventListener("click", () => updateSelected({ type: "checkin", timerRunningSince: null }, true));
     $("typeTimer").addEventListener("click", () => updateSelected({ type: "timer" }, true));
     $("startTimer").addEventListener("click", startTimer);

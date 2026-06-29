@@ -1,6 +1,6 @@
 {
   "name": "mindo",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "description": "Mindo turns mind maps, daily todos, check-ins and timers into one focused planning system.",
   "main": "electron/main.js",
@@ -19,19 +19,35 @@
     "productName": "Mindo",
     "files": [
       "app/**/*",
+      "assets/**/*",
       "electron/**/*",
       "docs/**/*",
       "README.md",
       "package.json"
     ],
+    "icon": "assets/icon",
     "mac": {
       "category": "public.app-category.productivity",
+      "icon": "assets/icon.icns",
+      "extendInfo": {
+        "NSCalendarsUsageDescription": "Mindo needs Calendar access to sync Check-in and Timer records.",
+        "NSAppleEventsUsageDescription": "Mindo needs permission to control Calendar for creating and updating timeline events.",
+        "CFBundleURLTypes": [
+          {
+            "CFBundleURLName": "Mindo",
+            "CFBundleURLSchemes": [
+              "mindo"
+            ]
+          }
+        ]
+      },
       "target": [
         "dmg",
         "zip"
       ]
     },
     "win": {
+      "icon": "assets/icon.ico",
       "target": [
         {
           "target": "nsis",

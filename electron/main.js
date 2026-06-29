@@ -7,6 +7,8 @@ import { promisify } from "node:util";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const execFileAsync = promisify(execFile);
+let mainWindow = null;
+let pendingDeepLink = null;
 
 function appleScriptString(value = "") {
   return `"${String(value).replace(/\\/g, "\\\\").replace(/"/g, '\\"')}"`;
@@ -126,7 +128,7 @@ ipcMain.handle("calendar:requestAccess", async () => {
 
 ipcMain.handle("calendar:listCalendars", async () => {
   const result = await runAppleScript('tell application "Calendar" to return name of calendars');
-  return result.ok ? { ok: true, calendars: result.value ? result.value.split(/,\\s*/) : [] } : result;
+  return result.ok ? { ok: true, calendars: result.value ? result.value.split(/,\s*/) : [] } : result;
 });
 
 ipcMain.handle("calendar:createEvent", async (_event, payload) => createCalendarEvent(payload));
@@ -156,8 +158,15 @@ function createWindow() {
       sandbox: false
     }
   });
+  mainWindow = win;
 
   win.loadFile(path.join(__dirname, "..", "app", "index.html"));
+  win.webContents.once("did-finish-load", () => {
+    if (pendingDeepLink) {
+      win.webContents.send("app:deep-link", pendingDeepLink);
+      pendingDeepLink = null;
+    }
+  });
 
   win.webContents.setWindowOpenHandler(({ url }) => {
     shell.openExternal(url);
@@ -166,11 +175,38 @@ function createWindow() {
 }
 
 app.whenReady().then(() => {
+  app.setAsDefaultProtocolClient("mindo");
   createWindow();
   app.on("activate", () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
   });
 });
+
+function dispatchDeepLink(url) {
+  if (!url) return;
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    mainWindow.show();
+    mainWindow.focus();
+    mainWindow.webContents.send("app:deep-link", url);
+    return;
+  }
+  pendingDeepLink = url;
+}
+
+app.on("open-url", (event, url) => {
+  event.preventDefault();
+  dispatchDeepLink(url);
+});
+
+const gotSingleInstanceLock = app.requestSingleInstanceLock();
+if (!gotSingleInstanceLock) {
+  app.quit();
+} else {
+  app.on("second-instance", (_event, argv) => {
+    const url = argv.find((item) => item.startsWith("mindo://"));
+    dispatchDeepLink(url);
+  });
+}
 
 app.on("window-all-closed", () => {
   if (process.platform !== "darwin") app.quit();

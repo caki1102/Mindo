@@ -4,13 +4,15 @@
 
 ## 当前版本
 
-`v0.1.0 Prototype Release`
+`v0.1.1 Prototype Release`
 
 当前版本已经整理为可发布结构：
 
 - `app/index.html`：可直接打开的静态应用入口
+- `assets/`：Mindo 应用图标源文件与 macOS / Windows 打包图标
 - `outputs/mindo.html`：原始原型文件
 - `electron/`：桌面应用壳，可打包为 macOS App，并已接入 Apple Calendar 桥接
+- `native/macos-widget/`：macOS 桌面小组件 WidgetKit 模板
 - `capacitor.config.json`：Android APK 壳配置
 - `docs/API_CONTRACT.md`：系统日历、通知、账号、本地文件等接口预留说明
 - `scripts/build-release.mjs`：生成 GitHub Release 下载包
@@ -25,6 +27,8 @@
 - 日历视图
 - 统计视图
 - 场景管理
+- 设置页权限管理与 Apple Calendar 连接状态
+- macOS 桌面小组件模板：场景启动与自由计时入口
 - 工作区、文件夹、项目层级
 - Trash 30 天恢复
 - 节点收藏夹与资料侧栏
@@ -52,7 +56,7 @@ npm run release:static
 生成后会得到：
 
 ```text
-release/Mindo-v0.1.0.zip
+release/Mindo-v0.1.1.zip
 ```
 
 这个压缩包可以上传到 GitHub Releases。
@@ -85,9 +89,11 @@ npx cap add android
 npm run release:android
 ```
 
-Apple Calendar 同步需要使用桌面版运行。第一次读取或写入日历时，macOS 会弹出系统授权；允许后，Check-in 和 Timer 记录会创建对应的日历事件。直接用浏览器打开 `app/index.html` 时，系统日历同步不会生效。
+Apple Calendar 同步需要使用 macOS 桌面版运行。打开设置页后点击“连接 Apple Calendar”，macOS 会弹出系统授权；允许后，Mindo 会读取现有日历分类，Todo、Check-in 和 Timer 可以选择对应日历并创建事件。直接用浏览器打开 `app/index.html` 时，系统日历同步不会生效。
 
 Android APK 当前用于原型预览。Apple Calendar 同步只适用于 macOS 桌面版；Android 未来需要接入 Android Calendar Provider 权限。
+
+macOS 桌面小组件需要原生 WidgetKit 扩展。当前包内已提供 `native/macos-widget/MindoWidget.swift` 作为 Xcode 接入模板，详见 `docs/APPLE_WIDGETS.md`。
 
 ## 接口预留
 

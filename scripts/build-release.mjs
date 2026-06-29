@@ -17,8 +17,10 @@ fs.mkdirSync(staging, { recursive: true });
 
 const copyItems = [
   "app",
+  "assets",
   "electron",
   "docs",
+  "native",
   "scripts",
   "capacitor.config.json",
   "README.md",

@@ -3,17 +3,17 @@
 ## Release title
 
 ```text
-Mindo v0.1.0 Prototype
+Mindo v0.1.1 Prototype
 ```
 
 ## Release description
 
 ```markdown
-## Mindo v0.1.0 Prototype
+## Mindo v0.1.1 Prototype
 
 Mindo is a mind-map-first planning and execution app. It helps you break down goals and projects with a visual mind map, then turn them into Daily Todo, Check-in, Timer, Timeline, Calendar and Statistics records.
 
-This release is the first downloadable prototype package. It is suitable for product preview, UI review, interaction testing and future desktop packaging.
+This release adds a settings panel for Calendar permissions, Apple Calendar calendar-list refresh, deep-link hooks for widgets, and a WidgetKit scaffold for future macOS desktop widgets.
 
 ### Key Features
 
@@ -27,6 +27,8 @@ This release is the first downloadable prototype package. It is suitable for pro
 - Workspace, folder and project hierarchy
 - Trash restore for deleted items
 - macOS Apple Calendar bridge for Check-in and Timer records
+- Settings panel with Apple Calendar authorization status and permission controls
+- WidgetKit scaffold for macOS desktop scene and timer widgets
 - Reserved native interfaces for notifications, account, file, search and future cloud sync
 
 ### Download
@@ -34,7 +36,7 @@ This release is the first downloadable prototype package. It is suitable for pro
 Download the release asset for your platform:
 
 ```text
-Mindo-v0.1.0.zip          Static prototype package
+Mindo-v0.1.1.zip          Static prototype package
 Mindo-*.dmg               macOS desktop installer
 Mindo Setup *.exe         Windows desktop installer
 app-debug.apk             Android prototype APK
@@ -44,7 +46,7 @@ app-debug.apk             Android prototype APK
 
 #### Static prototype
 
-1. Download `Mindo-v0.1.0.zip`.
+1. Download `Mindo-v0.1.1.zip`.
 2. Unzip the file.
 3. Open `app/index.html` in a browser.
 
@@ -84,7 +86,7 @@ npm run release:android
 
 Apple Calendar sync only works in the Electron/macOS desktop build. The browser version, Windows EXE and Android APK cannot write to Apple Calendar through macOS permissions.
 
-When the desktop app first reads or writes Calendar data, macOS may show a system permission dialog. After permission is approved, Check-in and Timer records can create matching events in Apple Calendar.
+Open Settings and click `Connect Apple Calendar`. macOS may show a system permission dialog. After permission is approved, Mindo can read existing Calendar categories, and Check-in / Timer records can create matching events in the selected Apple Calendar.
 
 If sync does not work, check:
 
@@ -94,7 +96,7 @@ If sync does not work, check:
 
 ### Status
 
-This is a prototype release. Core UI, interaction flow and release structure are ready. DMG, EXE and APK packaging are configured through GitHub Actions. Some native features are reserved for future implementation.
+This is a prototype release. Core UI, interaction flow and release structure are ready. DMG, EXE and APK packaging are configured through GitHub Actions. The macOS WidgetKit source is included as a native scaffold and must be attached to an Xcode Widget Extension before it can appear in macOS widgets.
 ```
 
 ## Upload assets
@@ -102,5 +104,5 @@ This is a prototype release. Core UI, interaction flow and release structure are
 Upload this generated file:
 
 ```text
-release/Mindo-v0.1.0.zip
+release/Mindo-v0.1.1.zip
 ```

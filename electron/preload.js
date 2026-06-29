@@ -9,7 +9,10 @@ function notImplemented(feature) {
 }
 
 const NativeBridge = {
-  version: "0.1.0",
+  version: "0.1.1",
+  onDeepLink: (handler) => {
+    ipcRenderer.on("app:deep-link", (_event, url) => handler(url));
+  },
   calendar: {
     requestAccess: () => ipcRenderer.invoke("calendar:requestAccess"),
     listCalendars: () => ipcRenderer.invoke("calendar:listCalendars"),
