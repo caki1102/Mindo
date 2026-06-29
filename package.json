@@ -1,0 +1,58 @@
+{
+  "name": "mindo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mindo turns mind maps, daily todos, check-ins and timers into one focused planning system.",
+  "main": "electron/main.js",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-html.mjs",
+    "start": "electron .",
+    "release:static": "node scripts/build-release.mjs",
+    "release:mac": "electron-builder --mac --publish never",
+    "release:win": "electron-builder --win --publish never",
+    "release:desktop": "electron-builder --mac --win --publish never",
+    "release:android": "npx cap sync android && cd android && ./gradlew assembleDebug"
+  },
+  "build": {
+    "appId": "com.zakiya.mindo",
+    "productName": "Mindo",
+    "files": [
+      "app/**/*",
+      "electron/**/*",
+      "docs/**/*",
+      "README.md",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
