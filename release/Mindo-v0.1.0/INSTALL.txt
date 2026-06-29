@@ -1,0 +1,11 @@
+Mindo 0.1.0
+
+Static version:
+1. Open app/index.html in a browser.
+
+Desktop development version:
+1. Run npm install
+2. Run npm run start
+
+GitHub release notes:
+See docs/API_CONTRACT.md for reserved native interfaces.

@@ -1,0 +1,36 @@
+{
+  "name": "mindmap-todo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Mind map first project planning, Daily Todo, Timeline, Calendar and Statistics prototype.",
+  "main": "electron/main.js",
+  "type": "module",
+  "scripts": {
+    "check": "node scripts/check-html.mjs",
+    "start": "electron .",
+    "release:static": "node scripts/build-release.mjs",
+    "release:desktop": "electron-builder --mac --publish never"
+  },
+  "build": {
+    "appId": "com.zakiya.mindmaptodo",
+    "productName": "MindMap Todo",
+    "files": [
+      "app/**/*",
+      "electron/**/*",
+      "docs/**/*",
+      "README.md",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    }
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  }
+}
